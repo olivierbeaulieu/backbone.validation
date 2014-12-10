@@ -26,13 +26,18 @@ Backbone.Validation = (function(_){
 
     // Replaces nummeric placeholders like {0} in a string with arguments
     // passed to the function
-    format: function() {
-      var args = Array.prototype.slice.call(arguments),
-          text = args.shift();
-      return text.replace(/\{(\d+)\}/g, function(match, number) {
-        return typeof args[number] !== 'undefined' ? args[number] : match;
-      });
-    }
+	format: function() {
+		var args = Array.prototype.slice.call(arguments),
+			text = args.shift();
+
+		if (typeof text == 'function') {
+			text = text();
+		}
+
+		return text.replace(/\{(\d+)\}/g, function(match, number) {
+			return typeof args[number] !== 'undefined' ? args[number] : match;
+		});
+	}
   };
 
   // Flattens an object
